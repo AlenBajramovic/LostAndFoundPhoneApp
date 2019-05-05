@@ -111,12 +111,14 @@ public class PhoneDriver
 		try
  		{
 			//id=generate_id();
-			id=itemNum();
+			Device device= new Device();
+			device.setDeviceId(itemNum());
+			
 			System.out.print("\n Product ID :"+id+"\n");
 			br=new BufferedReader(ir);
 			
 			System.out.print("\n Enter name of item: :");
-			desc=br.readLine();
+			device.deviceName=(br.readLine());
 
 			System.out.print("\n Enter quantity of item: :");
 			stock=Integer.parseInt(br.readLine());	
@@ -381,16 +383,16 @@ public class PhoneDriver
 		System.out.println("2 ... Unregister Device");
 		System.out.println("3 ... Display Devices");
 		System.out.println("4 ... Mark Device Lost");
-		System.out.println("4 ... Mark Device Found");
-		System.out.println("5 ... Logout");
+		System.out.println("5 ... Mark Device Found");
+		System.out.println("6 ... Logout");
 		begin:
 		while(ch!=5)
 		{
 			System.out.print("\n");
-			System.out.print("\n Enter a choice and Press ENTER to continue[1-5]:");
+			System.out.print("\n Enter a choice and Press ENTER to continue[1-6]:");
 			ch=Integer.parseInt(br.readLine());
 			
-			if(ch>4||ch<1)
+			if(ch>6||ch<1)
 			{
 				System.out.println("This doesn't appear to be a valid option...!");
 				continue begin;	
@@ -421,10 +423,17 @@ public class PhoneDriver
 			else
 			if(ch==3)
 			{
+				//DISPLAY ALL DEVICES
 				inv.displayReport();		
 			}	
 			if(ch==4)
 			{
+				//DEVICE LOST
+				inv.displayReport();		
+			}
+			if(ch==4)
+			{
+				//DEVICE FOUND
 				inv.displayReport();		
 			}
 		}

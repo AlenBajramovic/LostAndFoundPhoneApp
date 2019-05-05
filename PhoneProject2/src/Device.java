@@ -1,7 +1,7 @@
 
 public class Device{
 
-  private String deviceId;
+  private String id;
   private String deviceName;
   private String userName;
   private String userEmail;
@@ -15,18 +15,18 @@ public class Device{
   }
 
   public Device(String deviceId, String deviceName, User owner, Location location){
-    this.deviceId = deviceId;
+    this.id = deviceId;
     this.deviceName = deviceName;
     this.currentLocation = location;
     this.isLost = false;
   }
 
   public String getDeviceId(){
-    return this.deviceId;
+    return this.id;
   }
 
   public void setDeviceId(String deviceId){
-    this.deviceId = deviceId;
+    this.id = deviceId;
   }
 
   public boolean getIsLost(){
@@ -43,5 +43,9 @@ public class Device{
 
   public void setUserName(String userName){
     this.userName = userName;
+  }
+  
+  public void setDeviceName(String name) {
+	  this.deviceName
   }
 }
