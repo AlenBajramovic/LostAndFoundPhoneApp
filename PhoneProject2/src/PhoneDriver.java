@@ -359,7 +359,7 @@ public class PhoneDriver
 				longitude=cline[4];
 	            
 				//test
-				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
+				boolean test= ((idToRemove)==Integer.parseInt(id));
 				System.out.println(test);
 				System.out.println(deviceUser.contentEquals(user));
 				
@@ -368,7 +368,9 @@ public class PhoneDriver
 	        }
 	        writer.close(); 
 	        reader.close(); 
-	        boolean successful = tempFile.renameTo(inputFile);
+	        inputFile.delete();
+	        tempFile.renameTo(inputFile);
+	        //tempFile.renameTo(inputFile);
 	        /*
 			while((s=br.readLine()) != null)
 			{
