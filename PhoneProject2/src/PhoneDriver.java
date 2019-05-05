@@ -362,7 +362,8 @@ public class PhoneDriver
 	private static String login() throws IOException {
 		
 		System.out.println("Enter your username: :");
-		br=new BufferedReader(ir);
+		InputStreamReader ir=new InputStreamReader(System.in);
+		BufferedReader br=new BufferedReader(ir);
 		String username= br.readLine();
 		return username;
 	}
