@@ -102,23 +102,17 @@ public class PhoneDriver
 	//function to add new product
 	private void addItem()
 	{
-		//String desc;
-		//String id;
-		//double price=0;
-		//int stock=0;
-		
-		
 		try
  		{
 			//id=generate_id();
 			Device device= new Device();
 			device.setDeviceId(itemNum());
 			
-			System.out.print("\n Device ID :"+id+"\n");
+			System.out.print("\n Device ID :"+device.getDeviceId()+"\n");
 			br=new BufferedReader(ir);
 			
 			System.out.print("\n Enter name of Device: :");
-			device.setDeviceName=(br.readLine());
+			device.setDeviceName((br.readLine()));
 			
 			System.out.print("\n Enter Latitude: :");
 			device.setLatitude(Float.parseFloat(br.readLine()));	
@@ -126,15 +120,10 @@ public class PhoneDriver
 			System.out.print("\n Enter Longitude: :");
 			device.setLongitude(Float.parseFloat(br.readLine()));
 			
-	
-			
-			//System.out.print("\n Re-order Level :");
-			//rol=Integer.parseInt(br.readLine());
-			
 			fos=new FileOutputStream("Item.txt",true);
 			ps=new PrintStream(fos);
 			
-			ps.println(id+","+desc+","+stock+","+price);
+			ps.println(device.getDeviceId()+","+device.getDeviceName()+","+device.getLatitude()+","+device.getLongitude());
 			fos.close();
 			System.out.println("Successfully added the device...");
 		}
@@ -370,6 +359,14 @@ public class PhoneDriver
 		}
 	}
 	
+	public void markLost() {
+		
+	}
+	
+	public void markFound() {
+		
+	}
+	
 	public static void menu() throws IOException {
 		PhoneDriver inv=new PhoneDriver();
 		int ch=0;
@@ -429,12 +426,12 @@ public class PhoneDriver
 			if(ch==4)
 			{
 				//DEVICE LOST
-				inv.displayReport();		
+				inv.markLost();		
 			}
 			if(ch==4)
 			{
 				//DEVICE FOUND
-				inv.displayReport();		
+				inv.markFound();		
 			}
 		}
 		

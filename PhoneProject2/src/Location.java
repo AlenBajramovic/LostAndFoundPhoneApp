@@ -1,4 +1,4 @@
-
+/*
 public class Location{
   private Float longitude;
   private Float latitude;
@@ -25,3 +25,4 @@ public class Location{
   this.latitude = latitude;
   }
 }
+*/

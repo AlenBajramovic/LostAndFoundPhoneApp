@@ -6,7 +6,8 @@ public class Device{
   private String userName;
   private String userEmail;
   private String password;
-  private Location currentLocation; // Might want to do this, might now. Just a thought
+  private Float longitude;
+  private Float latitude;
   private boolean isLost;
 
 
@@ -14,10 +15,12 @@ public class Device{
 
   }
 
-  public Device(String deviceId, String deviceName, User owner, Location location){
+  public Device(String deviceId, String deviceName, String owner, Float longitude, Float latitude){
     this.id = deviceId;
     this.deviceName = deviceName;
-    this.currentLocation = location;
+    this.userName=owner;
+    this.longitude = longitude;
+    this.latitude = latitude;
     this.isLost = false;
   }
 
@@ -46,6 +49,26 @@ public class Device{
   }
   
   public void setDeviceName(String name) {
-	  this.deviceName
+	  this.deviceName=name;
   }
+  
+  public String getDeviceName() {
+	  return this.deviceName;
+  }
+
+  public Float getLongitude(){
+    return this.longitude;
+  }
+
+  public void setLongitude(Float longitude){
+    this.longitude = longitude;
+  }
+  public Float getLatitude(){
+    return this.latitude;
+  }
+
+  public void setLatitude(Float latitude){
+  this.latitude = latitude;
+  }
+
 }
