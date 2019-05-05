@@ -1,2 +1,4 @@
-user,1,deviceName,100.0,200.0
-user,1,anotherDevice,69.0,420.0
+user,0,one,3.0,4.0
+user,1,device,4.0,6.0
+user2,2,imac,400.0,300.0
+user2,3,iphone,400.0,300.0

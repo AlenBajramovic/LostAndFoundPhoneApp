@@ -386,7 +386,7 @@ public class PhoneDriver
 		BufferedReader br=new BufferedReader(ir);
 		
 		begin:
-		while(ch!=5)
+		while(ch!=6)
 		{
 			System.out.print("\n");
 			System.out.println("                                ");
@@ -442,7 +442,7 @@ public class PhoneDriver
 				inv.markLost();	
 				continue begin;
 			}
-			if(ch==4)
+			if(ch==5)
 			{
 				//DEVICE FOUND
 				inv.markFound();
