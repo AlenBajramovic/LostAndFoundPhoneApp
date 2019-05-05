@@ -385,18 +385,18 @@ public class PhoneDriver
 		InputStreamReader ir=new InputStreamReader(System.in);
 		BufferedReader br=new BufferedReader(ir);
 		
-		System.out.println("                                ");
-		System.out.println("Main Menu:");
-		System.out.println("1 ... Register Device");
-		System.out.println("2 ... Unregister Device");
-		System.out.println("3 ... Display Devices");
-		System.out.println("4 ... Mark Device Lost");
-		System.out.println("5 ... Mark Device Found");
-		System.out.println("6 ... Logout");
 		begin:
 		while(ch!=5)
 		{
 			System.out.print("\n");
+			System.out.println("                                ");
+			System.out.println("Main Menu:");
+			System.out.println("1 ... Register Device");
+			System.out.println("2 ... Unregister Device");
+			System.out.println("3 ... Display Devices");
+			System.out.println("4 ... Mark Device Lost");
+			System.out.println("5 ... Mark Device Found");
+			System.out.println("6 ... Logout");
 			System.out.print("\n Enter a choice and Press ENTER to continue[1-6]:");
 			ch=Integer.parseInt(br.readLine());
 			
@@ -433,17 +433,20 @@ public class PhoneDriver
 			if(ch==3)
 			{
 				//DISPLAY ALL DEVICES
-				inv.displayReport();		
+				inv.displayReport();
+				continue begin;
 			}	
 			if(ch==4)
 			{
 				//DEVICE LOST
-				inv.markLost();		
+				inv.markLost();	
+				continue begin;
 			}
 			if(ch==4)
 			{
 				//DEVICE FOUND
-				inv.markFound();		
+				inv.markFound();
+				continue begin;
 			}
 		}
 		

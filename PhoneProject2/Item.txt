@@ -1,0 +1,2 @@
+user,1,deviceName,100.0,200.0
+user,1,anotherDevice,69.0,420.0
