@@ -100,7 +100,7 @@ public class PhoneDriver
 	}
 	
 	//function to add new product
-	private void addItem()
+	private void addItem(String user)
 	{
 		try
  		{
@@ -123,7 +123,7 @@ public class PhoneDriver
 			fos=new FileOutputStream("Item.txt",true);
 			ps=new PrintStream(fos);
 			
-			ps.println(device.getDeviceId()+","+device.getDeviceName()+","+device.getLatitude()+","+device.getLongitude());
+			ps.println(user+","+device.getDeviceId()+","+device.getDeviceName()+","+device.getLatitude()+","+device.getLongitude());
 			fos.close();
 			System.out.println("Successfully added the device...");
 		}
@@ -359,6 +359,14 @@ public class PhoneDriver
 		}
 	}
 	
+	private static String login() throws IOException {
+		
+		System.out.println("Enter your username: :");
+		br=new BufferedReader(ir);
+		String username= br.readLine();
+		return username;
+	}
+	
 	public void markLost() {
 		
 	}
@@ -367,7 +375,9 @@ public class PhoneDriver
 		
 	}
 	
-	public static void menu() throws IOException {
+	private static void menu(String user) throws IOException {
+		
+		
 		PhoneDriver inv=new PhoneDriver();
 		int ch=0;
 		String s;
@@ -400,7 +410,7 @@ public class PhoneDriver
 				s="y";
 				while(s.equals("y")||s.equals("Y"))
 				{
-					inv.addItem();
+					inv.addItem(user);
 					System.out.print("\n Register another[y/n]:");
 					s=br.readLine();						
 				}
@@ -416,6 +426,7 @@ public class PhoneDriver
 					System.out.print("\n Unregister another[y/n]:");
 					s=br.readLine();						
 				}
+				continue begin;
 			}
 			else
 			if(ch==3)
@@ -464,7 +475,8 @@ public class PhoneDriver
 				
 				if(ch==1) {
 					//LOGIN GOES HERE
-						menu();	
+						String username=login();
+						menu(username);	
 						continue begin;
 					}
 					
