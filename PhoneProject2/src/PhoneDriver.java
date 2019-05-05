@@ -134,6 +134,7 @@ public class PhoneDriver
 	}
 	
 	//function to make selling transaction for a specific product
+	/*
 	private void makeTransaction()
 	{
 		String id,desc,s="y";
@@ -150,7 +151,7 @@ public class PhoneDriver
 				
 				System.out.print("\n Enter Product ID :");
 				id=br.readLine();
-				msg=findProduct(id);
+				msg=findProduct(stock);
 				if(msg.equals("Product not found..."))
 				{
 					System.out.print("\n"+msg);
@@ -219,14 +220,15 @@ public class PhoneDriver
 			System.out.println("Could not process the transaction...!");	
 		}	
 	}
+	*/
 	
-	//function for searching a product in the master file
-	private String findProduct(String pID) throws IOException
+	//COULD BE USED TO FIND A SPECIFIC NAME
+	private String deleteDevicePrototype(String user) throws IOException
 	{
 		int counter=0,i=0,flag=0;
 		String s;
 		String cline[]=new String[255];
-		String cID[]=new String[5];
+		String cid[]=new String[5];
 		String value=" ";
 		
 		frs=new FileReader("Item.txt");
@@ -238,12 +240,12 @@ public class PhoneDriver
 			{
 				counter=counter+1;
 				cline[counter]=s;
-				cID=cline[counter].split(",");
-				if(cID[0].equals(pID))
+				cid=cline[counter].split(",");
+				if(cid[0].equals(user))
 				{
-					for(;i<cID.length;i++)
+					for(;i<cid.length;i++)
 					{
-						value=value+","+cID[i];	
+						value=value+","+cid[i];	
 					}
 					flag=1;
 					break;
@@ -252,7 +254,7 @@ public class PhoneDriver
 			switch(flag)
 			{
 				case 0:
-					value="Product not found...";
+					value="Device not found...";
 					break;
 				case 1:
 					value=value.substring(2);
@@ -261,13 +263,142 @@ public class PhoneDriver
 		}
 		catch(Exception ex)
 		{
-			System.out.println("Could continue operation on searching the product...!");
+			System.out.println("Could continue operation on searching for the device...!");
 		}
 		
 		return value;
 	}
+	/*
+	private void deleteDevice(String user) {
+		
+		String deviceId;
+		String deviceUser,id,deviceName,latitude,longitude,s;
+		String cline[]=new String[4];
+		
+		try
+		{
+			
+
+			displayReport(user);
+			System.out.println("Enterdevice ID to remove: :");
+			InputStreamReader input=new InputStreamReader(System.in);
+			BufferedReader inputReader=new BufferedReader(input);
+			deviceId= inputReader.readLine();
+			//inputReader.close();
+			
+			frs=new FileReader("Item.txt");
+			br=new BufferedReader(frs);
+			
+			while((s=br.readLine()) != null)
+			{
+				cline=s.split(",");
+				deviceUser=cline[0];
+				id=cline[1];
+				deviceName=cline[2];
+				latitude=cline[3];
+				longitude=cline[4];
+				//test
+				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
+				System.out.println(test);
+				System.out.println(deviceUser.contentEquals(user));
+				
+				if(deviceUser.contentEquals(user) && (Integer.parseInt(deviceId)==Integer.parseInt(id))) {
+					fos=new FileOutputStream("Item.txt");
+					ps=new PrintStream(fos);
+					ps.print("");
+					fos.close();
+				}
+				
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Some exceptions occured...");
+			System.out.println("Could not delete device...!");	
+		}
+		
+	}
+	*/
+	private int askDelete(String user)throws IOException {
+		displayReport(user);
+		System.out.println("Enterdevice ID to remove: :");
+		InputStreamReader input=new InputStreamReader(System.in);
+		BufferedReader inputReader=new BufferedReader(input);
+		int deviceId= Integer.parseInt(inputReader.readLine());
+		//inputReader.close();
+		return deviceId;
+	}
 	
-	//function for updating the value of current stock whenever a specific item is sold out
+	private void deleteDevice(String user) {
+		
+		String deviceId;
+		String deviceUser,id,deviceName,latitude,longitude,s;
+		String cline[]=new String[4];
+		
+		try
+		{
+			File inputFile = new File("Item.txt");
+	        File tempFile = new File("ItemTemp.txt");
+
+	        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+	        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+			
+	        int idToRemove = askDelete(user);
+	        String currentLine;
+	        int count=0;
+	        	
+	        while((currentLine = reader.readLine()) != null) {
+	            // trim newline when comparing with lineToRemove
+	            String trimmedLine = currentLine.trim();
+	            
+	            cline=currentLine.split(",");
+				deviceUser=cline[0];
+				id=cline[1];
+				deviceName=cline[2];
+				latitude=cline[3];
+				longitude=cline[4];
+	            
+				//test
+				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
+				System.out.println(test);
+				System.out.println(deviceUser.contentEquals(user));
+				
+	            if(deviceUser.contentEquals(user) && (idToRemove)==Integer.parseInt(id)) continue;
+	            writer.write(currentLine + System.getProperty("line.separator"));
+	        }
+	        writer.close(); 
+	        reader.close(); 
+	        boolean successful = tempFile.renameTo(inputFile);
+	        /*
+			while((s=br.readLine()) != null)
+			{
+				cline=s.split(",");
+				deviceUser=cline[0];
+				id=cline[1];
+				deviceName=cline[2];
+				latitude=cline[3];
+				longitude=cline[4];
+				//test
+				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
+				System.out.println(test);
+				System.out.println(deviceUser.contentEquals(user));
+				
+				if(deviceUser.contentEquals(user) && (Integer.parseInt(deviceId)==Integer.parseInt(id))) {
+					//deletes line
+				}
+				
+			}
+			*/
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Some exceptions occured...");
+			System.out.println("Could not delete device...!");	
+		}
+		
+	}
+	
+	//NOT USING THIS
 	private int updateStock(String pID,int qty) throws IOException
 	{
 		int counter=0,i=0,pos=0;
@@ -326,10 +457,10 @@ public class PhoneDriver
 		return status;	
 	}
 	
-	//function to generate and print the daily transaction report
-	private void displayReport()
+	//WE ARENT USING THIS 
+	private void displayReport(String user)
 	{
-		String id,desc,qty,value,stock,s;
+		String deviceUser,id,deviceName,latitude,longitude,s;
 		String cline[]=new String[4];
 		
 		try
@@ -343,13 +474,15 @@ public class PhoneDriver
 			while((s=br.readLine()) != null)
 			{
 				cline=s.split(",");
-				id=cline[0];
-				desc=cline[1];
-				qty=cline[2];
-				value=cline[3];
-				//stock=cline[4];
+				deviceUser=cline[0];
+				id=cline[1];
+				deviceName=cline[2];
+				latitude=cline[3];
+				longitude=cline[4];
 				
-				System.out.println("\nItem #" + id+"\nName: "+desc+"\nQTY: "+qty+"\nCOST: "+value +"\nTOTAL: "+Integer.parseInt(value)*Integer.parseInt(qty)+"   ");
+				if(deviceUser.contentEquals(user)) {
+					System.out.println("DEVICE ID: " + id+", NAME: "+deviceName+", (Latitude,Longitude): ("+latitude+","+longitude+")  ");
+				}
 			}	
 		}
 		catch(Exception ex)
@@ -423,7 +556,7 @@ public class PhoneDriver
 				s="y";
 				while(s.equals("y")||s.equals("Y"))
 				{
-					inv.makeTransaction();			
+					inv.deleteDevice(user);			
 					System.out.print("\n Unregister another[y/n]:");
 					s=br.readLine();						
 				}
@@ -433,7 +566,7 @@ public class PhoneDriver
 			if(ch==3)
 			{
 				//DISPLAY ALL DEVICES
-				inv.displayReport();
+				inv.displayReport(user);
 				continue begin;
 			}	
 			if(ch==4)
