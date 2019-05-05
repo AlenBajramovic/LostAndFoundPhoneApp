@@ -114,17 +114,17 @@ public class PhoneDriver
 			Device device= new Device();
 			device.setDeviceId(itemNum());
 			
-			System.out.print("\n Product ID :"+id+"\n");
+			System.out.print("\n Device ID :"+id+"\n");
 			br=new BufferedReader(ir);
 			
-			System.out.print("\n Enter name of item: :");
-			device.deviceName=(br.readLine());
+			System.out.print("\n Enter name of Device: :");
+			device.setDeviceName=(br.readLine());
+			
+			System.out.print("\n Enter Latitude: :");
+			device.setLatitude(Float.parseFloat(br.readLine()));	
 
-			System.out.print("\n Enter quantity of item: :");
-			stock=Integer.parseInt(br.readLine());	
-
-			System.out.print("\n Enter price of item:");
-			price=Double.parseDouble(br.readLine());
+			System.out.print("\n Enter Longitude: :");
+			device.setLongitude(Float.parseFloat(br.readLine()));
 			
 	
 			
