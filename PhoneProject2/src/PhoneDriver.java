@@ -1,13 +1,14 @@
 import java.io.*;
 import java.lang.*;
+import java.io.File;
 
 public class PhoneDriver
 {
 	private InputStreamReader ir=new InputStreamReader(System.in);
-	private BufferedReader br;
+	private BufferedReader br, br2;
 	private FileOutputStream fos;
 	private	PrintStream ps; 
-	private FileReader frs;
+	private FileReader frs, frs2;
 	
 	//function to check the existence for a file
 	private boolean checkFile(String filename)
@@ -115,15 +116,16 @@ public class PhoneDriver
 			device.setDeviceName((br.readLine()));
 			
 			System.out.print("\n Enter Latitude: :");
-			device.setLatitude(Float.parseFloat(br.readLine()));	
+			device.setLatitude(Float.valueOf(br.readLine()));
 
 			System.out.print("\n Enter Longitude: :");
-			device.setLongitude(Float.parseFloat(br.readLine()));
+			device.setLongitude(Float.valueOf(br.readLine()));
 			
 			fos=new FileOutputStream("Item.txt",true);
 			ps=new PrintStream(fos);
 			
-			ps.println(user+","+device.getDeviceId()+","+device.getDeviceName()+","+device.getLatitude()+","+device.getLongitude());
+			//Since we aren't saving the object I added a boolean value at the end in the form of a string to later verify lost and found phone data
+			ps.println(user+","+device.getDeviceId()+","+device.getDeviceName()+","+device.getLatitude()+","+device.getLongitude()+",0");
 			fos.close();
 			System.out.println("Successfully added the device...");
 		}
@@ -268,60 +270,10 @@ public class PhoneDriver
 		
 		return value;
 	}
-	/*
-	private void deleteDevice(String user) {
-		
-		String deviceId;
-		String deviceUser,id,deviceName,latitude,longitude,s;
-		String cline[]=new String[4];
-		
-		try
-		{
-			
 
-			displayReport(user);
-			System.out.println("Enterdevice ID to remove: :");
-			InputStreamReader input=new InputStreamReader(System.in);
-			BufferedReader inputReader=new BufferedReader(input);
-			deviceId= inputReader.readLine();
-			//inputReader.close();
-			
-			frs=new FileReader("Item.txt");
-			br=new BufferedReader(frs);
-			
-			while((s=br.readLine()) != null)
-			{
-				cline=s.split(",");
-				deviceUser=cline[0];
-				id=cline[1];
-				deviceName=cline[2];
-				latitude=cline[3];
-				longitude=cline[4];
-				//test
-				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
-				System.out.println(test);
-				System.out.println(deviceUser.contentEquals(user));
-				
-				if(deviceUser.contentEquals(user) && (Integer.parseInt(deviceId)==Integer.parseInt(id))) {
-					fos=new FileOutputStream("Item.txt");
-					ps=new PrintStream(fos);
-					ps.print("");
-					fos.close();
-				}
-				
-			}
-		}
-		catch(Exception ex)
-		{
-			System.out.println("Some exceptions occured...");
-			System.out.println("Could not delete device...!");	
-		}
-		
-	}
-	*/
 	private int askDelete(String user)throws IOException {
 		displayReport(user);
-		System.out.println("Enterdevice ID to remove: :");
+		System.out.println("Enter device ID to remove: :");
 		InputStreamReader input=new InputStreamReader(System.in);
 		BufferedReader inputReader=new BufferedReader(input);
 		int deviceId= Integer.parseInt(inputReader.readLine());
@@ -370,27 +322,6 @@ public class PhoneDriver
 	        reader.close(); 
 	        inputFile.delete();
 	        tempFile.renameTo(inputFile);
-	        //tempFile.renameTo(inputFile);
-	        /*
-			while((s=br.readLine()) != null)
-			{
-				cline=s.split(",");
-				deviceUser=cline[0];
-				id=cline[1];
-				deviceName=cline[2];
-				latitude=cline[3];
-				longitude=cline[4];
-				//test
-				boolean test= (Integer.parseInt(deviceId)==Integer.parseInt(id));
-				System.out.println(test);
-				System.out.println(deviceUser.contentEquals(user));
-				
-				if(deviceUser.contentEquals(user) && (Integer.parseInt(deviceId)==Integer.parseInt(id))) {
-					//deletes line
-				}
-				
-			}
-			*/
 		}
 		catch(Exception ex)
 		{
@@ -500,15 +431,74 @@ public class PhoneDriver
 		InputStreamReader ir=new InputStreamReader(System.in);
 		BufferedReader br=new BufferedReader(ir);
 		String username= br.readLine();
+		FileWriter writer = new FileWriter("item.txt");
 		return username;
 	}
 	
-	public void markLost() {
-		
+	public void markLost(String user) throws IOException {
+		displayReport(user);
+		System.out.println("Enter device ID to mark as lost: :");
+		toggleLost(user, "1");
 	}
 	
-	public void markFound() {
-		
+	
+	        
+	public void markFound(String user) {
+		displayReport(user);
+		System.out.println("Enter device ID to mark as found: :");
+		toggleLost(user, "0");
+	}
+
+	public void toggleLost(String user, String lostValue){
+		boolean lineFound = false;
+		String File = "Item.txt";
+		BufferedReader reader = null;
+		FileOutputStream fileOut = null;
+		StringBuffer fileBuffer = new StringBuffer();
+		try {
+			InputStreamReader input=new InputStreamReader(System.in);
+			BufferedReader inputReader=new BufferedReader(input);
+			String deviceId = inputReader.readLine();
+			String FILE_NAME = "Item.txt";
+			File file = new File(FILE_NAME);
+			if (checkFile("Item.txt") == true)
+				System.out.println("Found file");
+			else
+				System.out.println("Cant find file");
+
+			reader = new BufferedReader(new FileReader(File));
+
+			String currentLine = reader.readLine();
+			while (currentLine != null) {
+				String[] deviceParts = currentLine.split(",");
+				if (deviceParts[1].equals(deviceId)) {
+					currentLine = currentLine.substring(0, currentLine.length() - 1) + lostValue + "\n";
+					fileBuffer.append(currentLine);
+					lineFound = true;
+				}else{
+					fileBuffer.append(currentLine);
+				}
+				currentLine = reader.readLine();
+			}
+			if(lineFound){
+				file.delete(); // Remove old file and swap with new one.
+				fileOut = new FileOutputStream(FILE_NAME);
+				fileOut.write(fileBuffer.toString().getBytes());
+			}
+		}catch (Exception ex){
+			System.out.println("Unable to update phone lost status");
+		}finally {
+			try{
+				if(reader != null) {
+					reader.close();
+				}
+				if(fileOut != null){
+					fileOut.close();
+				}
+			}catch (IOException ex){
+
+			}
+		}
 	}
 	
 	private static void menu(String user) throws IOException {
@@ -574,13 +564,13 @@ public class PhoneDriver
 			if(ch==4)
 			{
 				//DEVICE LOST
-				inv.markLost();	
+				inv.markLost(user);	
 				continue begin;
 			}
 			if(ch==5)
 			{
 				//DEVICE FOUND
-				inv.markFound();
+				inv.markFound(user);
 				continue begin;
 			}
 		}
